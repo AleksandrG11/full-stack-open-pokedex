@@ -1,0 +1,20 @@
+name: Hello World
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hello_world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say hello
+        run: echo "Hello World!"
+      - name: Print current UTC date
+        run: date -u
+      - name: List runner working directory
+        run: ls -la
