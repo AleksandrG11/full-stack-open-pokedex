@@ -12,6 +12,10 @@ const mapResults = (({ results }) => results.map(({ url, name }) => ({
   id: parseInt(url.match(/\/(\d+)\//)[1])
 })))
 
+const pagesBase = typeof window !== 'undefined' && window.location.hostname.endsWith('.github.io')
+  ? '/full-stack-open-pokedex'
+  : ''
+
 const App = () => {
   const { data: pokemonList, error, isLoading } = useApi('https://pokeapi.co/api/v2/pokemon/?limit=50', mapResults)
   if (isLoading) {
@@ -22,7 +26,7 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <Router basename={pagesBase}>
       <Switch>
         <Route exact path="/">
           <PokemonList pokemonList={pokemonList} />
