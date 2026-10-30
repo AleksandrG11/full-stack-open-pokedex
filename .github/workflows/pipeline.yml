@@ -37,7 +37,7 @@ jobs:
       - name: Run Playwright end-to-end tests
         run: npm run test:e2e
       - name: Publish tested bundle (main push only; not deployment)
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '#skip') }}
         uses: actions/upload-artifact@v4
         with:
           name: pokedex-${{ github.sha }}
@@ -45,7 +45,7 @@ jobs:
 
   deploy_pages:
     needs: quality
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '#skip') }}
     runs-on: ubuntu-22.04
     timeout-minutes: 15
     concurrency:
