@@ -12,7 +12,7 @@ const mapResults = (({ results }) => results.map(({ url, name }) => ({
   id: parseInt(url.match(/\/(\d+)\//)[1])
 })))
 
-const pagesBase = typeof window !== 'undefined' && window.location.hostname.endsWith('.github.io')
+const pagesBase = typeof window !== 'undefined' && (window.location.hostname.endsWith('.github.io') || window.location.pathname.startsWith('/full-stack-open-pokedex/'))
   ? '/full-stack-open-pokedex'
   : ''
 
