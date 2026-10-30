@@ -1,0 +1,24 @@
+name: Daily static deployment health
+
+on:
+  schedule:
+    - cron: '19 8 * * *'
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/healthcheck.yml'
+      - 'scripts/check_pages_health.py'
+
+permissions:
+  contents: read
+
+jobs:
+  check_site:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check public Pokedex Pages site and deployment manifest
+        run: python3 scripts/check_pages_health.py
+# Static availability check only; not a backend/database health guarantee.
