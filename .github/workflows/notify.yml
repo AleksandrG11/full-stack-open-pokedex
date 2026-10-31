@@ -1,0 +1,29 @@
+name: Course CI/CD notifications
+
+on:
+  workflow_run:
+    workflows: ["Course CI pipeline"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  notify:
+    if: >-
+      ${{ github.event.workflow_run.event == 'push' &&
+          github.event.workflow_run.head_branch == 'master' &&
+          (github.event.workflow_run.conclusion == 'success' ||
+           github.event.workflow_run.conclusion == 'failure') }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Notify Discord only for actual deployment or CI failure
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.COURSE_DISCORD_WEBHOOK }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/notify_discord.py
