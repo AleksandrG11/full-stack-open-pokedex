@@ -4,3 +4,7 @@ node_modules/
 test-results/
 playwright-report/
 .playwright-browsers/
+
+# Python unit-test bytecode
+__pycache__/
+*.pyc

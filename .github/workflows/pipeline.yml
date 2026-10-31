@@ -28,6 +28,8 @@ jobs:
         run: npm test -- --runInBand
         env:
           CI: 'true'
+      - name: Test Discord notification policy (mocked network)
+        run: python3 -m unittest discover -s test -p 'test_notify_discord.py' -v
       - name: Build production bundle
         run: npm run build
         env:
